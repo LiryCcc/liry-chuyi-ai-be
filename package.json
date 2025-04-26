@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "dependencies": {
+    "koa": "^2.16.1"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.15.0",
+    "rollup": "^4.40.0",
+    "typescript": "^5.8.3"
+  }
+}
