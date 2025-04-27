@@ -1,18 +1,46 @@
 {
   "type": "module",
   "scripts": {
-    "build": "rollup -c",
-    "format": "prettier --write --cache ."
+    "build:base": "rollup -c",
+    "dev": "cross-env NODE_ENV=development NODE_OPTIONS=\"--experimental-transform-types\" pnpm build:base && cross-env NODE_ENV=development node ./dist/index.js",
+    "format": "prettier --write --cache .",
+    "lint-code": "eslint .",
+    "test": "vitest run coverage"
   },
   "dependencies": {
-    "koa": "^2.16.1"
+    "axios": "^1.8.4",
+    "dayjs": "^1.11.13",
+    "koa": "^2.16.1",
+    "lodash-es": "^4.17.21",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "@koa/router": "^13.1.0",
+    "@rollup/plugin-alias": "^5.1.1",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.14.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.25.1",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "node-loader": "^2.1.0",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-packagejson": "^2.5.10",
     "rollup": "^4.40.0",
-    "typescript": "^5.8.3"
+    "rollup-plugin-delete": "^3.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0",
+    "vitest": "^3.1.2"
   }
 }
