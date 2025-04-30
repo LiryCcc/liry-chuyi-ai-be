@@ -1,1 +1,4 @@
 // 配置文件
+const DEEPSEEK_API_KEY = 'sk-57c85c002c924891892e7923608638a5';
+
+export { DEEPSEEK_API_KEY };
