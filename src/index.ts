@@ -1,29 +1,57 @@
 import Router from '@koa/router';
+import axios from 'axios';
 import Koa from 'koa';
+import { getDeepSeekModels } from './apis/list-models';
+import { DEEPSEEK_API_KEY } from './config';
 
 const app = new Koa();
 const router = new Router();
-const clients = new Set();
+// const clients = new Set();
 
 // interface Client {
 //   write?: (data: string) => void;
 // }
 
-router.post('/sse', (ctx) => {
-  ctx.type = 'text/event-stream';
-  ctx.set('Cache-Control', 'no-cache');
-  ctx.set('Connection', 'keep-alive');
-  ctx.set('Authorization', 'Bearer sk-57c85c002c924891892e7923608638a5');
-  // 解析请求体，获取可能的 POST 数据
-  const postBody = ctx.request.body || {};
-  console.log('Received POST data:', postBody);
-  ctx.req.on('close', () => {
-    clients.delete(ctx);
-    console.log('Client disconnected');
-  });
-  clients.add(ctx.res);
-  // 发送一个初始消息，告知客户端已连接
-  ctx.res.write(`data: Connected to SSE\n\n`);
+router.get('/', async (ctx) => {
+  console.log('sse');
+  ctx.type = 'application/event-stream';
+  const responseContent = await axios.post(
+    'https://api.deepseek.com/chat/completions',
+    {
+      messages: [],
+      model: 'deepseek-chat',
+      frequency_penalty: 0,
+      max_tokens: 2048,
+      presence_penalty: 0,
+      response_format: {
+        type: 'text'
+      },
+      stop: null,
+      stream: true,
+      stream_options: {
+        include_usage: true
+      },
+      temperature: 1,
+      top_p: 1,
+      tools: null,
+      tool_choice: null,
+      logprobs: false,
+      top_logprobs: null
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${DEEPSEEK_API_KEY}`
+      }
+    }
+  );
+  ctx.body = responseContent.data;
+});
+
+router.get('/models', async (ctx) => {
+  console.log('get models');
+  ctx.type = 'application/json';
+  ctx.body = await getDeepSeekModels();
 });
 
 // async function fetchExternalData() {
