@@ -1,14 +1,13 @@
 import Router from '@koa/router';
-import axios from 'axios';
 import Koa from 'koa';
 
 const app = new Koa();
 const router = new Router();
 const clients = new Set();
 
-interface Client {
-  write?: (data: string) => void;
-}
+// interface Client {
+//   write?: (data: string) => void;
+// }
 
 router.post('/sse', (ctx) => {
   ctx.type = 'text/event-stream';
@@ -26,40 +25,44 @@ router.post('/sse', (ctx) => {
   // 发送一个初始消息，告知客户端已连接
   ctx.res.write(`data: Connected to SSE\n\n`);
 });
-async function fetchExternalData() {
-  try {
-    const response = await axios.get('https://api.deepseek.com/chat/completions');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data from external API:', error);
-    return null;
-  }
-}
-function sendMessage(message: { event: string; data: { num: number; time: string; data: unknown | null } }) {
-  clients.forEach((client: Client | unknown) => {
-    if (!client.write) return;
-    try {
-      client.write(`data: ${message}\n\n`);
-    } catch (error) {
-      console.error('Error sending message to client:', error);
-      clients.delete(client);
-    }
-  });
-}
-setInterval(async () => {
-  const externalData = await fetchExternalData();
-  if (externalData) {
-    const message = {
-      event: 'externalData',
-      data: {
-        num: 1,
-        time: new Date().toISOString(),
-        data: externalData
-      }
-    };
-    sendMessage(message);
-  }
-}, 1000);
+
+// async function fetchExternalData() {
+//   try {
+//     const response = await axios.get('https://api.deepseek.com/chat/completions');
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching data from external API:', error);
+//     return null;
+//   }
+// }
+
+// function sendMessage(message: { event: string; data: { num: number; time: string; data: unknown | null } }) {
+//   clients.forEach((client: Client | unknown) => {
+//     if (!client!.write!) return;
+//     try {
+//       client.write(`data: ${message}\n\n`);
+//     } catch (error) {
+//       console.error('Error sending message to client:', error);
+//       clients.delete(client);
+//     }
+//   });
+// }
+
+// setInterval(async () => {
+//   const externalData = await fetchExternalData();
+//   if (externalData) {
+//     const message = {
+//       event: 'externalData',
+//       data: {
+//         num: 1,
+//         time: new Date().toISOString(),
+//         data: externalData
+//       }
+//     };
+//     sendMessage(message);
+//   }
+// }, 1000);
+
 app.use(router.routes()).use(router.allowedMethods());
 const port = (process.env.SERVER_PORT as string) ?? 8121;
 app.listen(port, () => {
