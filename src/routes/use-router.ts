@@ -1,10 +1,7 @@
 // 路由定义
 import Router from '@koa/router';
-import useController from '../controllers/useController';
-import authMiddleware from '../middlewares/authMiddleware';
-
-const { login, register, protectedRoute } = await useController();
-const { verifyToken } = await authMiddleware();
+import useController from '../controllers/use-controller';
+import authMiddleware from '../middlewares/auth-middleware';
 
 //用户注册
 const router = new Router();
