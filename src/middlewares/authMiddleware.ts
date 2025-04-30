@@ -6,6 +6,9 @@ const authMiddleware = async () => {
   };
   // 调用内部的 verifyToken 函数
   verifyToken();
+  return {
+    verifyToken
+  };
 };
 
 // 导出 authMiddleware 函数

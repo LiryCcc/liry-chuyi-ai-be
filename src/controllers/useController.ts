@@ -9,9 +9,11 @@ const useController = async () => {
   };
   const protectedRoute = () => {};
   // 调用内部的 verifyToken 函数
-  register();
-  login();
-  protectedRoute();
+  return {
+    register,
+    login,
+    protectedRoute
+  };
 };
 
 // 导出 authMiddleware 函数
