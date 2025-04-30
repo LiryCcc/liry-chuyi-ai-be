@@ -8,10 +8,13 @@ const { verifyToken } = await authMiddleware();
 
 //用户注册
 const router = new Router();
+
+const { register, login, protectedRoute } = await useController();
+const { verifyToken } = await authMiddleware();
 //用户登录
-router.post('/register', login);
-router.post('/login', register);
+router.post('/register', register);
+router.post('/login', login);
 //受保护的路由，需要JWT验证
-router.get('/protected', protectedRoute, verifyToken);
+router.get('/protected', verifyToken, protectedRoute);
 
 export default router;
