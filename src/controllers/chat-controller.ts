@@ -2,7 +2,8 @@
 import { chatCompletion } from '@/apis/chat-completion';
 // 定义 authMiddleware 函数
 const chatController = async (ctx: any) => {
-     try{
+    ctx.type = 'application/event-stream';
+    try{
       ctx.body = await chatCompletion();
      }catch(error){
       ctx.status = 500;

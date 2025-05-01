@@ -1,12 +1,11 @@
 // 错误处理 Error handling
-const errorHandler = (ctx) => {
+const errorHandler = () => {
 
 }
 // 成功处理 Success handling
-const responseHandler = (ctx) => {
+const responseHandler = () => {
 
 }
-
 
 export {
   errorHandler,
